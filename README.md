@@ -16,7 +16,7 @@
 [Cadenapp](https://cadenapp.com/) is a web-based platform that enables users to securely form saving groups among peers, organize their savings collectively, and quickly distribute funds between each other. We built and deployed a web application ([Rails app](https://cadenapp.com/)) that allows members to join a saving group, organize a deposit calendar, define a withdrawal schedule, calculate saving goals, receive notifications, and more. We're now on our final sprint before launch which consists of integrating a set of solutions to handle transactions.
 
 ## The problem we're trying to solve
-- We initially explored using a Banking-as-a-Service (BaaS) provider but found the costs prohibitive. The combination of high service fees, the complexity of their commercial terms, and the resources required in terms of time and technical capacity were too much for our available budget and operational needs.
+- We initially explored using a Banking-as-a-Service (BaaS) provider but found the costs prohibitive. The combination of very high service fees, the complexity of their commercial terms, and the resources required in terms of time and technical capacity were too much for our available budget and operational needs.
 - We're investigating achieving the same functionality at a much lower cost using a combination of crypto-to-fiat gateways and a custodial wallet: user deposits fiat that is converted to a stablecoin, stablecoin deposits are agregated and then sold for fiat, fiat conversions are then transferred to bank accounts.
 
 ## Starting principles
