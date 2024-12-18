@@ -24,7 +24,7 @@
 - Keeping the end user experience fiat-focused avoids the need to explain blockchain concepts, wallets, or cryptocurrencies, and broadens the potential user base.
 - Using crypto stablecoins to distribute funds internally avoids traditional banking fees and regulatory issues that are suboptimal for frequent micro-transactions in the context of a P2P saving platform.
 - Using crypto in the backend outmatches the cost of traditional transactions, but converting to fiat has a cost (both on deposit and withdrawal). We need to find a balance between the two.
-- One of the deciding factors for the success this crypto pivot will be finding a platform that can accept COP to buy crypto and wire crypto sales to Colombian bank accounts. Subsequentially chosing between [COPM](https://minteo.com/) and USDC is also key.
+- There are many bottlenecks to this approach, but one of the deciding factors for its success will be finding a platform that can accept COP to buy crypto and wire crypto sales to Colombian bank accounts. Subsequentially chosing between [COPM](https://minteo.com/) and USDC is also key.
 
 ## Workflow for abstracting crypto in a web-based P2P savings platform
 
@@ -132,11 +132,11 @@ Here’s a basic breakdown of fees on a basic scenario : 12 users, $100/person m
 #### 2. Custodial wallet - plan fee (Fireblocks, BitGo, or Venly)
 - Use case: Securely store and manage crypto funds.
 - Fees: Typically flat monthly fees starting at $100-$500/month for platforms like Fireblocks. (Venly charges based on API usage, and BitGo has custom fees.)
-- Scenario fee: Starter plan with Venly = $99/month (200k compute units)
+- Scenario fee: Starter plan with [Venly](https://www.venly.io/) = $99/month (200k compute units)
 
 #### 3. Deposits tracking API (Alchemy, Infura, or Moralis)
 - Use case: Monitor transactions on the blockchain.
-- Scenario fee: Based on API calls. Most services free starter plans so $0/month.
+- Scenario fee: Based on API calls. Most services free starter plans so $0/month (e.g. [Moralis](https://moralis.io/))
 
 #### 4. Stablecoin management (Polygon)
 - Use case: Transact using USDC on the Polygon network.
@@ -145,7 +145,7 @@ Here’s a basic breakdown of fees on a basic scenario : 12 users, $100/person m
 
 #### 5. Crypto-to-Fiat conversion (Circle, Binance, or Kraken)
 - Use case: Convert USDC to fiat for payout.
-- Fees: Typically 0.1%-0.2% trading fee for exchanges.
+- Fees: Typically 0.1%-0.2% trading fee for exchanges. 0 under $2M USD/day (source: [Circle](https://help.circle.com/s/article/USDC-redemption-structure?language=en_US&category=Fees_and_Billing))
 - Scenario fee = $1,100 × 0.002 = $2.20/month
 
 #### 6. Fiat payouts - optional depending on off-ramp provider (can also be Stripe, PayPal, Wise)
