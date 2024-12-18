@@ -10,7 +10,7 @@
 - [Benefits](#benefits-of-this-approach)
 - [Challenges](#challenges-to-consider)
 - [Solving the KYC challenge](#solving-the-kyc-challenge)
-
+- [Fees estimation](#fees-estimation)
 
 ## Context
 [Cadenapp](https://cadenapp.com/) is a web-based platform that enables users to securely form saving groups among peers, organize their savings collectively, and quickly distribute funds between each other. We built and deployed a web application ([Rails app](https://cadenapp.com/)) that allows members to join a saving group, organize a deposit calendar, define a withdrawal schedule, calculate saving goals, receive notifications, and more. We're tackling our final challenge before launch: handling transactions.
