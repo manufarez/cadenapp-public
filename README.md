@@ -24,13 +24,14 @@
 - Keeping the end user experience fiat-focused avoids the need to explain blockchain concepts, wallets, or cryptocurrencies, and broadens the potential user base.
 - Using crypto stablecoins to distribute funds internally avoids traditional banking fees and regulatory issues that are suboptimal for frequent micro-transactions in the context of a P2P saving platform.
 - Using crypto in the backend outmatches the cost of traditional transactions, but converting to fiat has a cost (both on deposit and withdrawal). We need to find a balance between the two.
-- One of the deciding factors for the success this pivot to crypto in the backend will be finding a player that can wire our crypto sales to Colombian bank accounts. Subsequentially chosing between [COPM](https://minteo.com/) and USDC is also key.
+- One of the deciding factors for the success this crypto pivot will be finding a platform that can accept COP to buy crypto and wire crypto sales to Colombian bank accounts. Subsequentially chosing between [COPM](https://minteo.com/) and USDC is also key.
 
 ## Workflow for abstracting crypto in a web-based P2P savings platform
 
 ### 1.	User deposits fiat (using Fiat-to-Crypto gateway):
 - Users make a fiat payment through a gateway
 - The gateway converts the fiat payment to a stablecoin (USDC or COPM) and transfers it to a custodial wallet (explained below) owned by our platform.
+- _It is of vital importance to find a platform that allows users to buy crypto with COP_
 
 ### 2.	Hold funds in crypto:
 - All users’ stablecoin deposits are collected in a platform-controlled wallet on the [Polygon](https://polygonscan.com/) network.
@@ -43,9 +44,9 @@
 
 ### 4.	Send Fiat to the designated member:
 - The converted fiat funds are transferred to the designated member via a fiat payment gateway (most exchanges use PayPal, Stripe, or a direct bank transfer API like [Plaid](https://plaid.com/) or Wise).
-- **It is of vital importance to find a platform that allows us to transfer to our users colombianbank accounts** 
+- **It is of vital importance to find a platform that allows us to transfer to our users colombianbank accounts**
 
-## Detailed mplementation Steps
+## Detailed implementation Steps
 ### 1. Fiat-to-Crypto gateway integration
 - Use APIs from a fiat-to-crypto provider ([MoonPay](https://moonpay.com/), [Ramp](https://ramp.network/), [Transak](https://transak.com/)) to:
     - Accept fiat payments from users within the Rails app.
@@ -54,8 +55,8 @@
 - Providers like [Onramper](https://onramper.com/) offer white-label solutions where users don’t see any branding from the fiat-to-crypto provider.
 - Advanced APIs from providers like [Circle](https://www.circle.com/) allow to programmatically initiate fiat-to-crypto conversions without exposing users to third-party interfaces.
 - Example flow:
-  1. User enters payment amount (e.g., $50).
-  2. Fiat-to-crypto gateway handles fiat processing and sends $50 worth of USDC or COPM to the platform wallet.
+  1. User enters payment amount (e.g., $100).
+  2. Fiat-to-crypto gateway handles fiat processing and sends $100 worth of USDC or COPM to the platform wallet.
 
 ### 2. Platform wallet management
 - We must maintain a centralized custodial wallet for each group or for the entire app. A custodial wallet is technically a normal crypto wallet but differs in terms of ownership and management : the platform holds private keys and manages funds on behalf of its users. This simplifies the user experience since they don’t need to manage crypto wallets themselves.
@@ -117,3 +118,54 @@ If we implement a custodial wallet and handle fiat-to-crypto conversions, we wil
 - Use third-party tools like [SumSub](https://sumsub.com/), Jumio, or Onfido to verify user identities.
 - Advantages: complete control over user data and branding, can integrate the KYC process directly into app for a seamless experience.
 - Disadvantages: Expensive to implement and maintain, directly liable for compliance with local laws.
+
+## Fees estimation
+Here’s a basic breakdown of fees on a basic scenario : 12 users, $100/person monthly deposits, $1,200 monthly payout. Assumptions are based on commonly available fee structures for these services. Actual fees may vary depending on specific integrations and agreements.
+
+#### 1. Fiat-to-Crypto Gateway - transaction fee (MoonPay, Ramp, or Transak)
+- Use case: Convert $100/person fiat into USDC.
+- Fees: ~1%-3.5% per transaction for fiat-to-crypto conversion (depending on the payment method - ex: [Transak](https://transak.notion.site/On-Ramp-Payment-Methods-Fees-Other-Details-b0761634feed4b338a69f4f186d906a5))
+- Fee for a credit card purchase = $1,100 × 0.035 = $35/month
+
+#### 2. Custodial wallet - plan fee (Fireblocks, BitGo, or Venly)
+- Use case: Securely store and manage crypto funds.
+- Fees: Typically flat monthly fees starting at $100-$500/month for platforms like Fireblocks. (Venly charges based on API usage, and BitGo has custom fees.)
+- Starter plan with Venly = $99/month (200k compute units)
+
+#### 3. Deposits tracking API (Alchemy, Infura, or Moralis)
+- Use case: Monitor transactions on the blockchain.
+- Fees: Based on API calls. Most services free starter plans so $0/month.
+
+#### 4. Stablecoin management (Polygon)
+- Use case: Transact using USDC on the Polygon network.
+- Fees: Polygon’s transaction fees are minimal (gas fees are ~$0.01 per transaction).
+- 12 transactions/month × $0.01 = $0.12/month
+
+#### 5. Crypto-to-Fiat conversion (Circle, Binance, or Kraken)
+- Use case: Convert USDC to fiat for payout.
+- Fees: Typically 0.1%-0.2% trading fee for exchanges.
+- Conversion amount = $1,200/month
+- Fee = $1,200 × 0.002 = $2.40/month
+
+#### 6. Fiat payouts - optional (Stripe, PayPal, Wise)
+- Use case: Transfer fiat to the designated member’s bank account.
+- Stripe: ~0.8% capped at $5 per payout.
+- Wise: ~0.5% for payouts to U.S. bank accounts.
+- Calculation (assuming Stripe):
+- Fee = $1,200 × 0.008 = $5 (capped)
+
+### Basic total monthly fees breakdown
+
+| Component                  | Monthly Fee (USD) |
+|----------------------------|--------------------|
+| Fiat-to-crypto gateway     | $35               |
+| Custodial Wallet           | $99               |
+| Deposits Tracking API      | $0                |
+| Stablecoin Management      | $0.12             |
+| Crypto-to-Fiat Conversion  | $2.40             |
+| Fiat Payouts               | $5                |
+| **Total Estimated Fees**   | **$141.52**       |
+
+### Basic fees per user
+- Total fees for a group/month = ~$142
+- Fees per user = $142 ÷ 12 = $11.3/user/month
