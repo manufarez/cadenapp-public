@@ -156,16 +156,17 @@ Here’s a basic breakdown of fees on a basic scenario : 12 users, $100/person m
 
 ### Basic total monthly fees breakdown
 
-| Component                  | Monthly Fee (USD) |
+| Component                  | Monthly fee (USD) |
 |----------------------------|--------------------|
 | Fiat-to-crypto gateway     | $35               |
-| Custodial Wallet           | $99               |
-| Deposits Tracking API      | $0                |
-| Stablecoin Management      | $0.12             |
-| Crypto-to-Fiat Conversion  | $2.40             |
-| Fiat Payouts               | $5                |
+| Custodial wallet           | $99               |
+| Deposits tracking API      | $0                |
+| Stablecoin management      | $0.12             |
+| Crypto-to-fiat conversion  | $2.40             |
+| Fiat payouts               | $5                |
 | **Total Estimated Fees**   | **$141.52**       |
 
 ### Basic fees per user
 - Total fees for a group/month = ~$142
-- Fees per user = $142 ÷ 12 = $11.3/user/month
+- Total transactional fees for a group/month = ~$43 (custody and tracking API fees have to be amortized with larger user base)
+- Fees per user = $43 ÷ 12 = $3.58/user/month
