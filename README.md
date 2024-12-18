@@ -66,17 +66,17 @@
 ### 3. Stablecoin aggregation and fiat conversion
 - At the end of a savings cycle, when a group deposits but one user withdraws, our app determines the total stablecoin balance owed to the designated member.
 - We use an exchange or fiat off-ramp to convert that amount of stablecoins to fiat:
-    - [Circle](https://www.circle.com/): Allows conversion of USDC to fiat and direct deposits into bank accounts.
+    - [Circle](https://www.circle.com/): Allows conversion of USDC to fiat AND direct deposits into bank accounts.
     - Centralized Exchanges: Transfer USDC to an exchange (e.g., Binance, Kraken), sell it for fiat, and withdraw fiat in the step below.
 
 ### 4. Fiat payout to designated member (if needed)
-- After the conversion, use a fiat payment gateway to pay the designated member. This phase may be done in step 3 depending on the provider. in the U.S. it would typically be:
+- After the conversion, use a fiat payment gateway to pay the designated member. This phase may be done in step 3 depending if the off-ramp provider allows it. In the U.S. it would typically be:
     - Wise: Global bank transfers with low fees.
     - Stripe/PayPal: Instant payouts for users with accounts.
     - Plaid: ACH transfers.
 
 ## Suggested stack recap
-- Fiat-to-Crypto gateway: ([MoonPay](https://moonpay.com/), [Ramp](https://ramp.network/), [Transak](https://transak.com/) or others.
+- Fiat-to-Crypto gateway: [MoonPay](https://moonpay.com/), [Ramp](https://ramp.network/), [Transak](https://transak.com/) or others.
 - Custodial wallet: [Fireblocks](https://www.fireblocks.com/), [BitGo](https://www.bitgo.com/), or [Venly](https://www.venly.io/)
 - Deposits tracking API: [Alchemy](https://www.alchemy.com/), [Infura](https://www.infura.io/), or [Moralis](https://developers.moralis.com/)
 - Stablecoin management: [Polygon](https://polygonscan.com/)
@@ -147,7 +147,7 @@ Here’s a basic breakdown of fees on a basic scenario : 12 users, $100/person m
 - Conversion amount = $1,200/month
 - Fee = $1,200 × 0.002 = $2.40/month
 
-#### 6. Fiat payouts - optional (Stripe, PayPal, Wise)
+#### 6. Fiat payouts - optional depending on off-ramp provider (can also be Stripe, PayPal, Wise)
 - Use case: Transfer fiat to the designated member’s bank account.
 - Stripe: ~0.8% capped at $5 per payout.
 - Wise: ~0.5% for payouts to U.S. bank accounts.
@@ -163,10 +163,10 @@ Here’s a basic breakdown of fees on a basic scenario : 12 users, $100/person m
 | Deposits tracking API      | $0                |
 | Stablecoin management      | $0.12             |
 | Crypto-to-fiat conversion  | $2.40             |
-| Fiat payouts               | $5                |
+| Fiat payouts (optional)    | $5                |
 | **Total Estimated Fees**   | **$141.52**       |
 
 ### Basic fees per user
 - Total fees for a group/month = ~$142
 - Total transactional fees for a group/month = ~$43 (custody and tracking API fees have to be amortized with larger user base)
-- Fees per user = $43 ÷ 12 = $3.58/user/month
+- Rough fees per user = $43 ÷ 12 = $3.58/user/month
