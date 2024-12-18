@@ -36,14 +36,16 @@
 ### 2.	Hold funds in crypto:
 - All users’ stablecoin deposits are collected in a platform-controlled wallet on the [Polygon](https://polygonscan.com/) network.
 - These funds remain as stablecoin until it’s time for withdrawal.
+- Our app should be able to track the balance of the wallet and know which users have deposited what amount in real time.
 
 ### 3.	Aggregate and sell crypto for fiat:
 - When it’s time to pay the designated member, the Rails app triggers a process to:
-- Aggregate the stablecoin deposits from the platform wallet.
-- Use a crypto-to-fiat service like [Circle](https://www.circle.com/) or a decentralized exchange ([Binance](https://binance.com/) or [Kraken](https://kraken.com/) with fiat off-ramps to convert the stablecoin back to fiat.
+  - Aggregate the stablecoin deposits from the platform wallet.
+  - Use a crypto-to-fiat service like [Circle](https://www.circle.com/) or a decentralized exchange ([Binance](https://binance.com/) or [Kraken](https://kraken.com/) with fiat off-ramps to convert the stablecoin back to fiat.
 
 ### 4.	Send Fiat to the designated member:
 - The converted fiat funds are transferred to the designated member via a fiat payment gateway (most exchanges use PayPal, Stripe, or a direct bank transfer API like [Plaid](https://plaid.com/) or Wise).
+- Our app should be informed of the transaction and update the balance of the users accordingly.
 - **It is of vital importance to find a platform that allows us to transfer to our users colombianbank accounts**
 
 ## Detailed implementation Steps
@@ -125,34 +127,32 @@ Here’s a basic breakdown of fees on a basic scenario : 12 users, $100/person m
 #### 1. Fiat-to-Crypto Gateway - transaction fee (MoonPay, Ramp, or Transak)
 - Use case: Convert $100/person fiat into USDC.
 - Fees: ~1%-3.5% per transaction for fiat-to-crypto conversion (depending on the payment method - ex: [Transak](https://transak.notion.site/On-Ramp-Payment-Methods-Fees-Other-Details-b0761634feed4b338a69f4f186d906a5))
-- Fee for a credit card purchase = $1,100 × 0.035 = $35/month
+- Scenario fee: $1,100 × 0.035 = $35/month (alwaysusing a credit card)
 
 #### 2. Custodial wallet - plan fee (Fireblocks, BitGo, or Venly)
 - Use case: Securely store and manage crypto funds.
 - Fees: Typically flat monthly fees starting at $100-$500/month for platforms like Fireblocks. (Venly charges based on API usage, and BitGo has custom fees.)
-- Starter plan with Venly = $99/month (200k compute units)
+- Scenario fee: Starter plan with Venly = $99/month (200k compute units)
 
 #### 3. Deposits tracking API (Alchemy, Infura, or Moralis)
 - Use case: Monitor transactions on the blockchain.
-- Fees: Based on API calls. Most services free starter plans so $0/month.
+- Scenario fee: Based on API calls. Most services free starter plans so $0/month.
 
 #### 4. Stablecoin management (Polygon)
 - Use case: Transact using USDC on the Polygon network.
 - Fees: Polygon’s transaction fees are minimal (gas fees are ~$0.01 per transaction).
-- 12 transactions/month × $0.01 = $0.12/month
+- Scenario fee = 12 transactions/month × $0.01 = $0.12/month
 
 #### 5. Crypto-to-Fiat conversion (Circle, Binance, or Kraken)
 - Use case: Convert USDC to fiat for payout.
 - Fees: Typically 0.1%-0.2% trading fee for exchanges.
-- Conversion amount = $1,200/month
-- Fee = $1,200 × 0.002 = $2.40/month
+- Scenario fee = $1,100 × 0.002 = $2.20/month
 
 #### 6. Fiat payouts - optional depending on off-ramp provider (can also be Stripe, PayPal, Wise)
 - Use case: Transfer fiat to the designated member’s bank account.
 - Stripe: ~0.8% capped at $5 per payout.
 - Wise: ~0.5% for payouts to U.S. bank accounts.
-- Calculation (assuming Stripe):
-- Fee = $1,200 × 0.008 = $5 (capped)
+- Scenario fee (assuming Wise): $1,100 × 0.005 = $5.50/month
 
 ### Basic total monthly fees breakdown
 
@@ -162,11 +162,11 @@ Here’s a basic breakdown of fees on a basic scenario : 12 users, $100/person m
 | Custodial wallet           | $99               |
 | Deposits tracking API      | $0                |
 | Stablecoin management      | $0.12             |
-| Crypto-to-fiat conversion  | $2.40             |
-| Fiat payouts (optional)    | $5                |
-| **Total Estimated Fees**   | **$141.52**       |
+| Crypto-to-fiat conversion  | $2.20             |
+| Fiat payouts (optional)    | $5.50             |
+| **Total Estimated Fees**   | **$141.82**       |
 
 ### Basic fees per user
 - Total fees for a group/month = ~$142
 - Total transactional fees for a group/month = ~$43 (custody and tracking API fees have to be amortized with larger user base)
-- Rough fees per user = $43 ÷ 12 = $3.58/user/month
+- Rough fees per user for 12 users = $43 ÷ 12 = $3.58/user/month (3.58% of the monthly deposit)
