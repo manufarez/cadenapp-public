@@ -31,7 +31,6 @@
 ### 1.	User deposits fiat (using Fiat-to-Crypto gateway):
 - Users make a fiat payment through a gateway
 - The gateway converts the fiat payment to a stablecoin (USDC or COPM) and transfers it to a custodial wallet (explained below) owned by our platform.
-- _
 - **It is of vital importance to find a platform that allows users to buy crypto with COP**
 
 ### 2.	Hold funds in crypto:
